@@ -8,12 +8,17 @@ import (
 
 func main() {
 	start := time.Now()
-	a := 0b0000000000000000000000000000000
-	for i := 0; i < 32; i++ {
-		t := (a >> i) & create2(i-1)
-		b := a & create2(i)
-		in := 0b1
-		fmt.Printf("%032b\n", (((t<<1)|in)<<i)|b)
+	for pos := 0; pos < 6; pos++ {
+		for j := 0b0; j <= 0b11111; j++ { //5階差分
+			//差分ベクトルにcを差し込む処理
+			t := (j >> pos) & create2(5-pos)
+			b := j & create2(pos)
+			//rand.Seed(time.Now().UnixNano())
+			in := 0b1
+			output := (((t << 1) | in) << pos) | b
+			fmt.Printf("%06b\n", output)
+		}
+		fmt.Println("--------------------")
 	}
 	//for i := 0; i < 8; i++ {
 	//	fmt.Printf("%b\n", (a>>(7-i))&1)
