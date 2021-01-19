@@ -1,47 +1,34 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
-	"strings"
 	"time"
 )
 
 func main() {
 	start := time.Now()
-	f, _ := os.Open("./16kai.txt")
-	defer f.Close()
-	scanner := bufio.NewScanner(f)
-
-	text := []string{"1111", "1111", "1111", "1111"}
-
-	for scanner.Scan() {
-		//ここから開始
-		tmp := strings.Split(scanner.Text(), ",")
-		org := []string{"0", "0", "0", "0", "0", "0", "0", "0"}
-		posA := strings.Split(tmp[0], "")
-		posC := strings.Split(tmp[1], "")
-
-		for i := 0b0; i <= 0b1111111111111111; i++ { //16階差分
-			sabun := nSplit(fmt.Sprintf("%016b", i), 4)
-			for i, v := range posA {
-				v, _ := strconv.Atoi(v)
-				org[v] = sabun[i]
-			}
-			for i, v := range posC {
-				v, _ := strconv.Atoi(v)
-				org[v] = text[i]
-			}
-			pt, _ := strconv.ParseInt(strings.Join(org, ""), 2, 32)
-			pt ^= 0
-			//fmt.Printf("%032b\n", pt)
-		}
-
+	a := 0b0000000000000000000000000000000
+	for i := 0; i < 32; i++ {
+		t := (a >> i) & create2(i-1)
+		b := a & create2(i)
+		in := 0b1
+		fmt.Printf("%032b\n", (((t<<1)|in)<<i)|b)
 	}
+	//for i := 0; i < 8; i++ {
+	//	fmt.Printf("%b\n", (a>>(7-i))&1)
+	//}
 
 	fmt.Println("\n実行時間：", time.Since(start))
+}
+
+func create2(num int) int {
+	txt := ""
+	for j := 0; j < num; j++ {
+		txt += "1"
+	}
+	res, _ := strconv.ParseInt(txt, 2, 32)
+	return int(res)
 }
 
 func nSplit(msg string, splitlen int) []string {
