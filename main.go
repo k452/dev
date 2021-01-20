@@ -9,22 +9,29 @@ func main() {
 	start := time.Now()
 
 	output := 0b0
-	pos := 5
-	i := 0b10001
-	t := (i >> pos) & create2(5-pos)
-	b := i & create2(pos)
-	in := 1
+	for pos := 0; pos <= 28; pos += 4 {
+		for i := 0; i < 0b1111111111111111111111111111; i++ {
+			//i := 0b0
+			t := (i >> pos) & create2(28-pos)
+			b := i & create2(pos)
+			in := 0b1111
 
-	if pos == 0 {
-		output = ((t << 1) | in) << pos
-	} else if pos == 5 {
-		output = (in << 5) | b
-	} else {
-		output = (((t << 1) | in) << pos) | b
+			if pos == 0 {
+				output = ((t << 4) | in) << pos
+			} else if pos == 28 {
+				output = (in << 28) | b
+			} else {
+				output = (((t << 4) | in) << pos) | b
+			}
+			fmt.Printf("%032b\n", output)
+		}
 	}
-	fmt.Printf("%0b\n", t)
-	fmt.Printf("%0b\n", b)
-	fmt.Printf("%0b\n", output)
+
+	//pos := 28
+
+	//fmt.Printf("%0b\n", t)
+	//fmt.Printf("%0b\n", b)
+
 	fmt.Println("\n実行時間：", time.Since(start))
 }
 
