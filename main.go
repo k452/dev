@@ -7,12 +7,24 @@ import (
 
 func main() {
 	start := time.Now()
-	pos := 2
-	txt := 0b10101
-	t := (txt >> pos) & create2(5-pos)
-	b := txt & create2(pos)
+
+	output := 0b0
+	pos := 5
+	i := 0b10001
+	t := (i >> pos) & create2(5-pos)
+	b := i & create2(pos)
+	in := 1
+
+	if pos == 0 {
+		output = ((t << 1) | in) << pos
+	} else if pos == 5 {
+		output = (in << 5) | b
+	} else {
+		output = (((t << 1) | in) << pos) | b
+	}
 	fmt.Printf("%0b\n", t)
 	fmt.Printf("%0b\n", b)
+	fmt.Printf("%0b\n", output)
 	fmt.Println("\n実行時間：", time.Since(start))
 }
 
