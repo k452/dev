@@ -9,19 +9,19 @@ func main() {
 	start := time.Now()
 
 	output := 0b0
-	for pos := 0; pos < 32; pos += 2 {
-		for i := 0; i < 0b111111; i++ {
+	for pos := 0; pos < 6; pos++ {
+		for i := 0; i <= 0b11111; i++ {
 			//i := 0b0
-			t := (i >> pos) & create2(32-pos)
+			t := (i >> pos) & create2(8-pos)
 			b := i & create2(pos)
-			in := 0b11
+			in := 0b111
 
 			if pos == 0 {
-				output = ((t << 2) | in) << pos
+				output = ((t << 3) | in) << pos
 			} else {
-				output = (((t << 2) | in) << pos) | b
+				output = (((t << 3) | in) << pos) | b
 			}
-			fmt.Printf("%032b\n", output)
+			fmt.Printf("%08b\n", output)
 		}
 	}
 
